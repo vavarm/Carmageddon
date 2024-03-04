@@ -11,7 +11,7 @@ public class GameController {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createGame(Coord2D coord2D){
+    public Response createGame(Coord2D<Integer, Integer> coord2D){
         Log.info("Creating game with coord2D: " + coord2D);
         return Response.status(200).entity(coord2D).build();
     }

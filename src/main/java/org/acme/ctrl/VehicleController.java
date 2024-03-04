@@ -5,6 +5,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.acme.common.Direction;
+import org.acme.common.MoveState;
 
 @Path("/vehicle")
 public class VehicleController {
@@ -20,6 +21,6 @@ public class VehicleController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response moveVehicle(String pseudo, Direction direction){
         Log.info("Moving vehicle with pseudo: " + pseudo + " in direction: " + direction);
-        return Response.status(200).entity(pseudo).entity(direction).build();
+        return Response.status(200).entity(MoveState.SUCCESS).build();
     }
 }

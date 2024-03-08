@@ -16,7 +16,7 @@ public abstract class Cell {
 
     @Override
     public String toString() {
-        return "Cell{" +
+        return "{" +
                 "position{" +
                 "x=" + position.getx() +
                 ", y=" + position.gety() +

@@ -10,7 +10,7 @@ public class Garage extends Cell{
 
     @Override
     public String toString() {
-        return "Garage{" +
+        return "{" +
                 "position{" +
                 "x=" + position.getx() +
                 ", y=" + position.gety() +

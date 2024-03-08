@@ -6,7 +6,7 @@ public class Vehicle extends Cell {
     private String pseudo;
     private int currentFuel;
     private final static int MAX_FUEL = 100;
-    private Direction direction;
+    private Direction orientation;
 
     public Vehicle(String pseudo, Direction direction, Coord2D<Integer, Integer> position) {
         super(position);
@@ -14,7 +14,7 @@ public class Vehicle extends Cell {
         assert direction != null;
         this.pseudo = pseudo;
         this.currentFuel = MAX_FUEL;
-        this.direction = direction;
+        this.orientation = direction;
     }
 
     public String getPseudo() {
@@ -35,21 +35,21 @@ public class Vehicle extends Cell {
         this.currentFuel = currentFuel;
     }
 
-    public Direction getDirection() {
-        return direction;
+    public Direction getOrientation() {
+        return orientation;
     }
 
-    public void setDirection(Direction direction) {
-        assert direction != null;
-        this.direction = direction;
+    public void setOrientation(Direction orientation) {
+        assert orientation != null;
+        this.orientation = orientation;
     }
 
     @Override
     public String toString() {
-        return "Vehicle{" +
+        return "{" +
                 "pseudo='" + pseudo + '\'' +
                 ", currentFuel=" + currentFuel +
-                ", direction=" + direction +
+                ", orientation=" + orientation +
                 ", position{" +
                 "x=" + position.getx() +
                 ", y=" + position.gety() +

@@ -64,7 +64,7 @@ public class Game {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Game{");
+        sb.append("{");
         sb.append("size{");
         sb.append("x=").append(size.getx());
         sb.append(", y=").append(size.gety());

@@ -10,7 +10,7 @@ public class GasStation extends Cell{
 
     @Override
     public String toString() {
-        return "GasStation{" +
+        return "{" +
                 "position{" +
                 "x=" + position.getx() +
                 ", y=" + position.gety() +

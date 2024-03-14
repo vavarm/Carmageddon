@@ -13,14 +13,4 @@ public abstract class Cell {
     public Coord2D<Integer, Integer> getPosition() {
         return position;
     }
-
-    @Override
-    public String toString() {
-        return "{" +
-                "position{" +
-                "x=" + position.getx() +
-                ", y=" + position.gety() +
-                "}" +
-                '}';
-    }
 }

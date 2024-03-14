@@ -45,14 +45,25 @@ public class Vehicle extends Cell {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Vehicle)) return false;
+        Vehicle vehicle = (Vehicle) o;
+        return pseudo.equals(vehicle.pseudo) &&
+                currentFuel == vehicle.currentFuel &&
+                orientation == vehicle.orientation &&
+                position.equals(vehicle.position);
+    }
+
+    @Override
     public String toString() {
         return "{" +
-                "pseudo='" + pseudo + '\'' +
-                ", currentFuel=" + currentFuel +
-                ", orientation=" + orientation +
-                ", position{" +
-                "x=" + position.getx() +
-                ", y=" + position.gety() +
+                "\"pseudo\": \"" + pseudo + '\"' +
+                ", \"currentFuel\": " + currentFuel +
+                ", \"orientation\": \"" + orientation + '\"' +
+                ", \"position\": {" +
+                "\"x\": " + position.getx() +
+                ", \"y\": " + position.gety() +
                 "}" +
                 '}';
     }

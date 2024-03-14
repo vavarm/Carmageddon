@@ -9,11 +9,19 @@ public class GasStation extends Cell{
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GasStation)) return false;
+        GasStation gasStation = (GasStation) o;
+        return position.equals(gasStation.position);
+    }
+
+    @Override
     public String toString() {
         return "{" +
-                "position{" +
-                "x=" + position.getx() +
-                ", y=" + position.gety() +
+                "\"position\": {" +
+                "\"x\": " + position.getx() +
+                ", \"y\": " + position.gety() +
                 "}" +
                 '}';
     }

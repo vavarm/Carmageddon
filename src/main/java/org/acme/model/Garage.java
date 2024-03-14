@@ -9,11 +9,19 @@ public class Garage extends Cell{
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Garage)) return false;
+        Garage garage = (Garage) o;
+        return position.equals(garage.position);
+    }
+
+    @Override
     public String toString() {
         return "{" +
-                "position{" +
-                "x=" + position.getx() +
-                ", y=" + position.gety() +
+                "\"position\": {" +
+                "\"x\": " + position.getx() +
+                ", \"y\": " + position.gety() +
                 "}" +
                 '}';
     }

@@ -17,7 +17,7 @@ public class Game {
 
     private static Game instance;
 
-    private Game(Coord2D<Integer, Integer> size, List<Garage> garages, List<GasStation> gasStations) {
+    protected Game(Coord2D<Integer, Integer> size, List<Garage> garages, List<GasStation> gasStations) {
         assert garages != null;
         assert gasStations != null;
         assert size != null;
@@ -62,28 +62,46 @@ public class Game {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Game)) return false;
+        Game game = (Game) o;
+        return getGarages().equals(game.getGarages()) &&
+                getGasStations().equals(game.getGasStations()) &&
+                getVehicles().equals(game.getVehicles()) &&
+                getSize().equals(game.getSize());
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("{");
-        sb.append("size{");
-        sb.append("x=").append(size.getx());
-        sb.append(", y=").append(size.gety());
-        sb.append("}, garages=");
+        sb.append("\"Game\":{");
+        sb.append("\"size\":{");
+        sb.append("\"x\":").append(size.getx());
+        sb.append(", ");
+        sb.append("\"y\":").append(size.gety());
+        sb.append("}, ");
+        sb.append("\"garages\":[");
         for (Garage garage : garages) {
             sb.append(garage.toString());
-            sb.append(", ");
+            if (garages.indexOf(garage) != garages.size() - 1)
+                sb.append(", ");
         }
-        sb.append("}, gasStations=");
+        sb.append("], ");
+        sb.append("\"gasStations\":[");
         for (GasStation gasStation : gasStations) {
             sb.append(gasStation.toString());
-            sb.append(", ");
+            if (gasStations.indexOf(gasStation) != gasStations.size() - 1)
+             sb.append(", ");
         }
-        sb.append("}, vehicles=");
+        sb.append("], ");
+        sb.append("\"vehicles\":[");
         for (Vehicle vehicle : vehicles) {
             sb.append(vehicle.toString());
-            sb.append(", ");
+            if (vehicles.indexOf(vehicle) != vehicles.size() - 1)
+                sb.append(", ");
         }
-        sb.append("}");
+        sb.append("]");
         sb.append("}");
         return sb.toString();
     }

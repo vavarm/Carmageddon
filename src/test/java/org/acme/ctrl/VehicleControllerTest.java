@@ -3,6 +3,7 @@ package org.acme.ctrl;
 import jakarta.ws.rs.core.Response;
 import org.acme.common.Direction;
 import org.acme.common.MoveState;
+import org.acme.dto.MoveVehicleDTO;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,9 +27,9 @@ class VehicleControllerTest {
     void testMoveVehicle() {
         VehicleController vehicleController = new VehicleController();
         String pseudo = "test";
-        Direction direction = Direction.up;
+        Direction direction = Direction.UP;
 
-        try (Response response = vehicleController.moveVehicle(pseudo, direction)) {
+        try (Response response = vehicleController.moveVehicle(new MoveVehicleDTO(pseudo, direction))) {
             assertEquals(response.getStatus(), 200);
             assertEquals(response.getEntity(), MoveState.SUCCESS);
         } catch (Exception e) {

@@ -73,6 +73,11 @@ public class Game {
     }
 
     @Override
+    public int hashCode() {
+        return getGarages().hashCode() + getGasStations().hashCode() + getVehicles().hashCode() + getSize().hashCode();
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("\"Game\":{");

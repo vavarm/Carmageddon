@@ -18,7 +18,7 @@ class GasStationTest {
 
     @Test
     void testEquals() {
-        assertTrue(gasStation.equals(new Garage(new Coord2D<>(1, 2))));
+        assertTrue(gasStation.equals(new GasStation(new Coord2D<>(1, 2))));
     }
 
     @Test

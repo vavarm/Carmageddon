@@ -56,6 +56,11 @@ public class Vehicle extends Cell {
     }
 
     @Override
+    public int hashCode() {
+        return pseudo.hashCode() + currentFuel + orientation.hashCode() + position.hashCode();
+    }
+
+    @Override
     public String toString() {
         return "{" +
                 "\"pseudo\": \"" + pseudo + '\"' +

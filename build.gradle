@@ -1,11 +1,26 @@
 plugins {
     id 'java'
     id 'io.quarkus'
+    id "org.sonarqube" version "4.4.1.3373"
+    id 'jacoco'
 }
 
 repositories {
     mavenCentral()
     mavenLocal()
+}
+
+sonar {
+    properties {
+        property "sonar.projectKey", "projet-20"
+        property "sonar.token", "sqp_82ab0499906d1eb34e19c4c88a4cad4b8741713e"
+        property "sonar.projectName", "projet-20"
+        property "sonar.qualitygate.wait", true
+        property "sonar.host.url", "https://sonar.home.lange.xyz"
+        tasks.jacocoTestReport.configure {
+            property("sonar.coverage.jacoco.xmlReportPaths", ["build/reports/jacoco/test/jacocoTestReport.xml"])
+        }
+    }
 }
 
 dependencies {
@@ -15,6 +30,7 @@ dependencies {
     implementation 'io.quarkus:quarkus-resteasy-reactive-jackson'
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
+    testImplementation "io.quarkus:quarkus-jacoco"
 }
 
 group 'org.acme'
@@ -27,7 +43,14 @@ java {
 
 test {
     systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
+    finalizedBy jacocoTestReport
+    jacoco {
+        excludeClassLoaders = ["*QuarkusClassLoader"]
+        destinationFile = layout.buildDirectory.file("jacoco-quarkus.exec").get().asFile
+    }
+    jacocoTestReport.enabled = true
 }
+
 compileJava {
     options.encoding = 'UTF-8'
     options.compilerArgs << '-parameters'
@@ -35,4 +58,12 @@ compileJava {
 
 compileTestJava {
     options.encoding = 'UTF-8'
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+        csv.required = true
+        html.required = true
+    }
 }

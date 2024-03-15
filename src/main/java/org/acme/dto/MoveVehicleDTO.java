@@ -3,15 +3,31 @@ package org.acme.dto;
 import org.acme.common.Direction;
 
 public class MoveVehicleDTO {
-    public String pseudo;
+    private String pseudo;
 
-    public Direction direction;
+    private Direction direction;
 
     public MoveVehicleDTO() {
     }
 
     public MoveVehicleDTO(String pseudo, Direction direction) {
         this.pseudo = pseudo;
+        this.direction = direction;
+    }
+
+    public String getPseudo() {
+        return pseudo;
+    }
+
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
         this.direction = direction;
     }
 }

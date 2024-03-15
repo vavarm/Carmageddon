@@ -6,8 +6,7 @@ public class Coord2D<X,Y> {
     private final Y y;
 
     public Coord2D(X x, Y y) {
-        assert x != null;
-        assert y != null;
+        if (x == null || y == null) throw new IllegalArgumentException("Coord2D cannot have null coordinates");
 
         this.x = x;
         this.y = y;
@@ -29,7 +28,7 @@ public class Coord2D<X,Y> {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Coord2D)) return false;
-        Coord2D coord2Do = (Coord2D) o;
+        Coord2D<Integer, Integer> coord2Do = (Coord2D) o;
         return this.x.equals(coord2Do.getx()) &&
                 this.y.equals(coord2Do.gety());
     }

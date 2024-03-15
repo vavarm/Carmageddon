@@ -11,13 +11,14 @@ public class GameController {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response createGame(Coord2D<Integer, Integer> coord2D){
-        Log.info("Creating game with coord2D: " + coord2D);
+        Log.info("Creating game with size: x=" + coord2D.getx() + " y=" + coord2D.gety());
         return Response.status(200).entity(coord2D).build();
     }
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getGameState(){
         Log.info("Getting game state");
         return Response.status(200).build();

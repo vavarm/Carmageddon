@@ -14,7 +14,7 @@ class GameControllerTest {
         Coord2D<Integer, Integer> coord2D = new Coord2D<>(1, 1);
 
         try (Response response = gameController.createGame(coord2D)) {
-            assertEquals(response.getStatus(), 200);
+            assertEquals(200, response.getStatus());
 
             Coord2D<?, ?> responseCoord2D = (Coord2D<?, ?>) response.getEntity();
             assertEquals(coord2D, responseCoord2D);
@@ -28,7 +28,7 @@ class GameControllerTest {
         GameController gameController = new GameController();
 
         try (Response response = gameController.getGameState()) {
-            assertEquals(response.getStatus(), 200);
+            assertEquals(200, response.getStatus());
         } catch (Exception e) {
             fail("Error getting game state", e);
         }

@@ -3,10 +3,10 @@ package org.acme.model;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.acme.common.Coord2D;
 import org.acme.common.Direction;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static java.lang.Integer.MIN_VALUE;
 import static org.junit.jupiter.api.Assertions.*;
 
 class VehicleTest {
@@ -16,6 +16,13 @@ class VehicleTest {
     @BeforeEach
     void setUp() {
         vehicle = new Vehicle("Vehicle1", Direction.UP, new Coord2D<Integer, Integer>(1, 1));
+    }
+
+    @Test
+    void testCreateVehicleWithNullParameter() {
+        Coord2D<Integer, Integer> position = new Coord2D<>(1, 1);
+        assertThrows(IllegalArgumentException.class, () -> new Vehicle(null, Direction.UP, position));
+        assertThrows(IllegalArgumentException.class, () -> new Vehicle("Vehicle1", null, position));
     }
 
     @Test
@@ -30,6 +37,11 @@ class VehicleTest {
     }
 
     @Test
+    void setPseudoNull() {
+        assertThrows(IllegalArgumentException.class, () -> vehicle.setPseudo(null));
+    }
+
+    @Test
     void getCurrentFuel() {
         assertEquals(100, vehicle.getCurrentFuel());
     }
@@ -41,6 +53,12 @@ class VehicleTest {
     }
 
     @Test
+    void setCurrentFuelNegativeValue() {
+        assertThrows(IllegalArgumentException.class, () -> vehicle.setCurrentFuel(-1));
+        assertThrows(IllegalArgumentException.class, () -> vehicle.setCurrentFuel(MIN_VALUE));
+    }
+
+    @Test
     void getOrientation() {
         assertEquals(Direction.UP, vehicle.getOrientation());
     }
@@ -49,6 +67,27 @@ class VehicleTest {
     void setOrientation() {
         vehicle.setOrientation(Direction.DOWN);
         assertEquals(Direction.DOWN, vehicle.getOrientation());
+    }
+
+    @Test
+    void setOrientationNull() {
+        assertThrows(IllegalArgumentException.class, () -> vehicle.setOrientation(null));
+    }
+
+    @Test
+    void equals() {
+        Vehicle vehicle2 = new Vehicle("Vehicle1", Direction.UP, new Coord2D<Integer, Integer>(1, 1));
+        assertEquals(vehicle, vehicle2);
+        assertEquals(vehicle.getPseudo(), vehicle2.getPseudo());
+        assertEquals(vehicle.getPosition(), vehicle2.getPosition());
+        assertNotEquals("vehicle", vehicle);
+
+    }
+
+    @Test
+    void hashCodeTest() {
+        Vehicle vehicle2 = new Vehicle("Vehicle1", Direction.UP, new Coord2D<Integer, Integer>(1, 1));
+        assertEquals(vehicle.hashCode(), vehicle2.hashCode());
     }
 
     @Test

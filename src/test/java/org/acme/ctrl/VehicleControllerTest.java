@@ -16,8 +16,8 @@ class VehicleControllerTest {
         String pseudo = "test";
 
         try (Response response = vehicleController.createVehicle(pseudo)) {
-            assertEquals(response.getStatus(), 200);
-            assertEquals(response.getEntity(), pseudo);
+            assertEquals(200, response.getStatus());
+            assertEquals(pseudo, response.getEntity());
         } catch (Exception e) {
             fail("Error creating vehicle", e);
         }
@@ -30,8 +30,8 @@ class VehicleControllerTest {
         Direction direction = Direction.UP;
 
         try (Response response = vehicleController.moveVehicle(new MoveVehicleDTO(pseudo, direction))) {
-            assertEquals(response.getStatus(), 200);
-            assertEquals(response.getEntity(), MoveState.SUCCESS);
+            assertEquals(200, response.getStatus());
+            assertEquals(MoveState.SUCCESS, response.getEntity());
         } catch (Exception e) {
             fail("Error moving vehicle", e);
         }

@@ -5,8 +5,8 @@ import org.acme.common.Coord2D;
 public abstract class Cell {
     protected Coord2D<Integer, Integer> position;
 
-    public Cell(Coord2D<Integer, Integer> position) {
-        assert position != null;
+    protected Cell(Coord2D<Integer, Integer> position) {
+        if (position == null) throw new IllegalArgumentException("Position cannot be null");
         this.position = position;
     }
 

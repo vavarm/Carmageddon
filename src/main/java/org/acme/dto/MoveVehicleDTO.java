@@ -8,6 +8,8 @@ public class MoveVehicleDTO {
     private Direction direction;
 
     public MoveVehicleDTO() {
+        this.pseudo = "";
+        this.direction = Direction.UP;
     }
 
     public MoveVehicleDTO(String pseudo, Direction direction) {

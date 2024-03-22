@@ -16,6 +16,11 @@ class CellTest {
     }
 
     @Test
+    void newCell() {
+        assertThrows(IllegalArgumentException.class, () -> new Garage(null));
+    }
+
+    @Test
     void getPosition() {
         assertEquals(new Coord2D<>(1, 2), cell.getPosition());
     }

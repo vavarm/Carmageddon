@@ -4,7 +4,6 @@ import io.quarkus.logging.Log;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.acme.common.Direction;
 import org.acme.common.MoveState;
 import org.acme.dto.MoveVehicleDTO;
 
@@ -23,7 +22,7 @@ public class VehicleController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response moveVehicle(MoveVehicleDTO moveVehicleDTO){
-        Log.info("Moving vehicle with pseudo: " + moveVehicleDTO.pseudo + " in direction: " + moveVehicleDTO.direction);
+        Log.info("Moving vehicle with pseudo: " + moveVehicleDTO.getPseudo() + " in direction: " + moveVehicleDTO.getDirection());
         return Response.status(200).entity(MoveState.SUCCESS).build();
     }
 }

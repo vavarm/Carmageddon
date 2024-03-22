@@ -5,13 +5,13 @@ import org.acme.common.*;
 public class Vehicle extends Cell {
     private String pseudo;
     private int currentFuel;
-    private final static int MAX_FUEL = 100;
+    private static final int MAX_FUEL = 100;
     private Direction orientation;
 
     public Vehicle(String pseudo, Direction direction, Coord2D<Integer, Integer> position) {
         super(position);
-        assert pseudo != null;
-        assert direction != null;
+        if (pseudo == null) throw new IllegalArgumentException("Pseudo cannot be null");
+        if (direction == null) throw new IllegalArgumentException("Direction cannot be null");
         this.pseudo = pseudo;
         this.currentFuel = MAX_FUEL;
         this.orientation = direction;
@@ -22,7 +22,7 @@ public class Vehicle extends Cell {
     }
 
     public void setPseudo(String pseudo) {
-        assert pseudo != null;
+        if (pseudo == null) throw new IllegalArgumentException("Pseudo cannot be null");
         this.pseudo = pseudo;
     }
 
@@ -31,7 +31,7 @@ public class Vehicle extends Cell {
     }
 
     public void setCurrentFuel(int currentFuel) {
-        assert currentFuel >= 0;
+        if (currentFuel < 0 ) throw new IllegalArgumentException("Fuel cannot be negative");
         this.currentFuel = currentFuel;
     }
 
@@ -40,7 +40,7 @@ public class Vehicle extends Cell {
     }
 
     public void setOrientation(Direction orientation) {
-        assert orientation != null;
+        if (orientation == null) throw new IllegalArgumentException("Direction cannot be null");
         this.orientation = orientation;
     }
 
@@ -53,6 +53,11 @@ public class Vehicle extends Cell {
                 currentFuel == vehicle.currentFuel &&
                 orientation == vehicle.orientation &&
                 position.equals(vehicle.position);
+    }
+
+    @Override
+    public int hashCode() {
+        return pseudo.hashCode() + currentFuel + orientation.hashCode() + position.hashCode();
     }
 
     @Override

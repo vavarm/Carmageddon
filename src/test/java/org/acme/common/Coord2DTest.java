@@ -15,6 +15,12 @@ class Coord2DTest {
     }
 
     @Test
+    void newCoord2D() {
+        assertThrows(IllegalArgumentException.class, () -> new Coord2D<Integer, Integer>(null, 2));
+        assertThrows(IllegalArgumentException.class, () -> new Coord2D<Integer, Integer>(1, null));
+    }
+
+    @Test
     void getx() {
         assertEquals(1, coord2D.getx());
     }
@@ -31,6 +37,7 @@ class Coord2DTest {
 
     @Test
     void testEquals() {
-        assertTrue(coord2D.equals(new Coord2D<Integer, Integer>(1, 2)));
+        assertEquals(coord2D, new Coord2D<Integer, Integer>(1, 2));
+        assertNotEquals("coord2D", coord2D);
     }
 }

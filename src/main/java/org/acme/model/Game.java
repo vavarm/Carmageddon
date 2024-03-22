@@ -18,9 +18,9 @@ public class Game {
     private static Game instance;
 
     protected Game(Coord2D<Integer, Integer> size, List<Garage> garages, List<GasStation> gasStations) {
-        assert garages != null;
-        assert gasStations != null;
-        assert size != null;
+        if (garages == null) throw new IllegalArgumentException("Garages cannot be null");
+        if (gasStations == null) throw new IllegalArgumentException("Gas stations cannot be null");
+        if (size == null) throw new IllegalArgumentException("Size cannot be null");
         this.garages = garages;
         this.gasStations = gasStations;
         this.vehicles = new ArrayList<>();
@@ -36,12 +36,12 @@ public class Game {
     }
 
     public void addVehicle(Vehicle vehicle) {
-        assert vehicle != null;
+        if (vehicle == null) throw new IllegalArgumentException("Vehicle cannot be null");
         vehicles.add(vehicle);
     }
 
     public void removeVehicle(Vehicle vehicle) {
-        assert vehicle != null;
+        if (vehicle == null) throw new IllegalArgumentException("Vehicle cannot be null");
         vehicles.remove(vehicle);
     }
 
@@ -70,6 +70,11 @@ public class Game {
                 getGasStations().equals(game.getGasStations()) &&
                 getVehicles().equals(game.getVehicles()) &&
                 getSize().equals(game.getSize());
+    }
+
+    @Override
+    public int hashCode() {
+        return getGarages().hashCode() + getGasStations().hashCode() + getVehicles().hashCode() + getSize().hashCode();
     }
 
     @Override

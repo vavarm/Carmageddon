@@ -18,7 +18,14 @@ class GasStationTest {
 
     @Test
     void testEquals() {
-        assertTrue(gasStation.equals(new GasStation(new Coord2D<>(1, 2))));
+        assertEquals(gasStation, new GasStation(new Coord2D<>(1, 2)));
+        assertNotEquals("gasStation", gasStation);
+    }
+
+    @Test
+    void hashCodeTest() {
+        GasStation gasStation2 = new GasStation(new Coord2D<>(1, 2));
+        assertEquals(gasStation.hashCode(), gasStation2.hashCode());
     }
 
     @Test

@@ -17,6 +17,11 @@ public class GasStation extends Cell{
     }
 
     @Override
+    public int hashCode() {
+        return position.hashCode();
+    }
+
+    @Override
     public String toString() {
         return "{" +
                 "\"position\": {" +

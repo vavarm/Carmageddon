@@ -7,12 +7,17 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.acme.dto.CreateGameDTO;
 import org.acme.svc.GameService;
+import org.acme.svc.impl.GameServiceImpl;
 
 @Path("/game")
 public class GameController {
 
+    private final GameService gameService;
+
     @Inject
-    GameService gameService;
+    public GameController() {
+        this.gameService = new GameServiceImpl();
+    }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

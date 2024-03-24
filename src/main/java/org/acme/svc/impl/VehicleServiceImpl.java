@@ -1,7 +1,7 @@
 package org.acme.svc.impl;
 
+import io.quarkus.logging.Log;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 import org.acme.common.Calculation;
 import org.acme.common.Coord2D;
 import org.acme.common.Direction;
@@ -13,16 +13,21 @@ import org.acme.model.GasStation;
 import org.acme.model.Vehicle;
 import org.acme.svc.VehicleService;
 
-import java.util.Random;
+import java.security.SecureRandom;
+import java.util.List;
 
 @ApplicationScoped
 public class VehicleServiceImpl implements VehicleService {
 
-    private Random random = new Random();
+    private SecureRandom random = new SecureRandom();
 
     public boolean createVehicle(String pseudo) {
-        int nbGarages = Game.getInstance().getGarages().size();
-        int randomGarage = random.nextInt(nbGarages);
+        List<Garage> garages = Game.getInstance().getGarages();
+        if (garages.isEmpty()) {
+            Log.error("No garages available");
+            return false;
+        }
+        int randomGarage = random.nextInt(garages.size());
         Coord2D<Integer, Integer> positionStart = Game.getInstance().getGarages().get(randomGarage).getPosition();
         Vehicle vehicle = new Vehicle(pseudo, Direction.UP, positionStart);
         Game.getInstance().addVehicle(vehicle);
@@ -54,7 +59,10 @@ public class VehicleServiceImpl implements VehicleService {
                     break;
             }
 
-            if (isOnGasStation(vehicle) || isOnGarage(vehicle) || isOnOtherVehicle(vehicle)) {
+            if (isOnGasStation(vehicle) || isOnGarage(vehicle)) {
+                return MoveState.SUCCESS;
+            }
+            if (!isOnGasStation(vehicle) && !isOnGarage(vehicle) && isOnOtherVehicle(vehicle)) {
                 return MoveState.SUCCESS;
             }
 

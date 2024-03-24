@@ -8,12 +8,17 @@ import jakarta.ws.rs.core.Response;
 import org.acme.common.MoveState;
 import org.acme.dto.MoveVehicleDTO;
 import org.acme.svc.VehicleService;
+import org.acme.svc.impl.VehicleServiceImpl;
 
 @Path("/vehicle")
 public class VehicleController {
 
+    private final VehicleService vehicleService;
+
     @Inject
-    VehicleService vehicleService;
+    public VehicleController() {
+        vehicleService = new VehicleServiceImpl();
+    }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

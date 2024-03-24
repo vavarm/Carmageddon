@@ -8,10 +8,13 @@ import org.acme.model.Garage;
 import org.acme.model.GasStation;
 import org.acme.svc.GameService;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 
 @ApplicationScoped
 public class GameServiceImpl implements GameService {
+
+    private SecureRandom random = new SecureRandom();
 
     public boolean createGame(CreateGameDTO createGameDTO) {
         Integer nbGarages = createGameDTO.getNbGarages();
@@ -20,29 +23,30 @@ public class GameServiceImpl implements GameService {
         ArrayList<GasStation> gasStations = new ArrayList<>();
 
         ArrayList<Coord2D<Integer, Integer>> coordNotEmpty = new ArrayList<>();
-
-        for (int i = 0; i < nbGarages-1; i++) {
-            int x = (int) (Math.random() * createGameDTO.getSize().getx()-1);
-            int y = (int) (Math.random() * createGameDTO.getSize().gety()-1);
+        int i = 0;
+        while (i < nbGarages) {
+            int x = random.nextInt() * (createGameDTO.getSize().getx()-1);
+            int y = random.nextInt() * (createGameDTO.getSize().gety()-1);
             Coord2D<Integer, Integer> coord = new Coord2D<>(x, y);
             if (coordNotEmpty.contains(coord)) {
-                i--;
                 continue;
             }
             coordNotEmpty.add(coord);
             garages.add(new Garage(coord));
+            i++;
         }
 
-        for (int i = 0; i < nbGasStations-1; i++) {
-            int x = (int) (Math.random() * createGameDTO.getSize().getx()-1);
-            int y = (int) (Math.random() * createGameDTO.getSize().gety()-1);
+        int j = 0;
+        while (j < nbGasStations) {
+            int x = random.nextInt() * (createGameDTO.getSize().getx()-1);
+            int y = random.nextInt() * (createGameDTO.getSize().gety()-1);
             Coord2D<Integer, Integer> coord = new Coord2D<>(x, y);
             if (coordNotEmpty.contains(coord)) {
-                i--;
                 continue;
             }
             coordNotEmpty.add(coord);
             gasStations.add(new GasStation(coord));
+            j++;
         }
 
         Game.createNewGame(createGameDTO.getSize(), garages, gasStations);

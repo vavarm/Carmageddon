@@ -5,6 +5,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.acme.common.Coord2D;
+import org.acme.svc.GameService;
 
 @Path("/game")
 public class GameController {
@@ -14,13 +15,20 @@ public class GameController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createGame(Coord2D<Integer, Integer> coord2D){
         Log.info("Creating game with size: x=" + coord2D.getx() + " y=" + coord2D.gety());
-        return Response.status(200).entity(coord2D).build();
+        if ( GameService.createGame(coord2D) ) {
+            return Response.status(201).build();
+        }
+        return Response.status(500).build();
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getGameState(){
         Log.info("Getting game state");
-        return Response.status(200).build();
+        String gameState = GameService.getGameState();
+        if (gameState != null) {
+            return Response.status(200).entity(gameState).build();
+        }
+        return Response.status(500).build();
     }
 }

@@ -5,13 +5,17 @@ function App() {
 
     const backendUrl = import.meta.env.VITE_BACKEND_URL
 
+    const delay = 10 //ms
+
+    const [startTime, setStartTime] = useState(Date.now())
+
     const [pseudoField, setPseudoField] = useState('')
 
     const [pseudo, setPseudo] = useState('')
 
-    // const [game, setGame] = useState({x: 0, y: 0, garages: [], gasStations: [], vehicles: []})
+    const [game, setGame] = useState({x: 0, y: 0, garages: [], gasStations: [], vehicles: []})
     // game with x, y, garages, gasStations, vehicles
-    const [game, setGame] = useState(
+    /* const [game, setGame] = useState(
         {
             x: 10,
             y: 10,
@@ -26,13 +30,7 @@ function App() {
                 {x: 9, y: 2, pseudo: 'tyty', direction: "DOWN"}
             ],
         })
-
-    const [arrows, setArrows] = useState({
-        UP: false,
-        RIGHT: false,
-        DOWN: false,
-        LEFT: false,
-    })
+     */
 
     const createGame = async () => {
         try {
@@ -60,27 +58,27 @@ function App() {
     }
 
     const createVehicle = async () => {
-        try {
-            const response = await axios.post(`${backendUrl}/vehicle`, {
+            axios.post(`${backendUrl}/vehicle`, {
                 pseudo: pseudoField,
+            }).then(response => {
+                console.log(response.data)
+                setPseudo(response.data.pseudo)
+            }).catch(error => {
+                console.error(error)
+            }).finally(() => {
+                setPseudoField('')
             })
-            console.log(response.data)
-            setPseudo(response.data.pseudo)
-        } catch (error) {
-            console.error(error)
-            setPseudo('')
-        } finally {
-            setPseudoField('')
-        }
     }
 
     const keydown = (event) => {
         const direction = getArrowKey(event)
-        if (direction) {
-            setArrows((arrows) => ({UP: false, RIGHT: false, DOWN: false, LEFT: false}))
-            setArrows((arrows) => ({...arrows, [direction]: true}))
+        const millis = Date.now() - startTime
+        console.log("Millis:" + millis)
+        if (direction && millis > delay) {
+            console.log(direction)
+            setStartTime(Date.now())
+            moveVehicle(direction)
         }
-        moveVehicle(direction)
     }
 
     const getArrowKey = (event) => {
@@ -98,18 +96,20 @@ function App() {
         }
     }
 
-    const moveVehicle = async (direction) => {
-        if (pseudo.length === 0) return
-        try {
-            const response = await axios.put(`${backendUrl}/vehicle`, {
-                pseudo: pseudo,
-                direction: direction,
-            })
-            console.log(response.data)
-        } catch (error) {
-            console.error(error)
-        }
+    const moveVehicle = (direction) => {
+        console.log(pseudo)
+        if (!pseudo) return;
+        console.log("Try to move the vehicle");
+        axios.put(`${backendUrl}/vehicle`, {
+            pseudo: pseudo,
+            direction: direction,
+        }).then(response => {
+            console.log(response);
+        }).catch(error => {
+            console.error(error);
+        });
     }
+
 
     useEffect(() => {
         console.log(import.meta.env.VITE_BACKEND_URL)
@@ -120,14 +120,16 @@ function App() {
         return () => {
             window.removeEventListener('keydown', handleKeydown)
         }
-    }, []);
+    }, [pseudo, startTime]);
 
   return (
         <div className="App" style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', width: '100vw'}}>
-            <div>
-                <button onClick={createGame}>Create Game</button>
-                <button onClick={getGame}>Get Game</button>
-            </div>
+            { game.x === 0 &&
+                <div>
+                    <button onClick={createGame}>Create Game</button>
+                    <button onClick={getGame}>Join Game</button>
+                </div>
+            }
             {pseudo.length !== 0 ?
                 <div>
                     <h1>Your pseudo: {pseudo}</h1>

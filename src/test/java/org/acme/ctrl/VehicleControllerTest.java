@@ -1,22 +1,34 @@
 package org.acme.ctrl;
 
 import jakarta.ws.rs.core.Response;
+import org.acme.common.Coord2D;
 import org.acme.common.Direction;
 import org.acme.common.MoveState;
 import org.acme.dto.MoveVehicleDTO;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class VehicleControllerTest {
 
+    VehicleController vehicleController;
+
+    @BeforeEach
+    void setUp() {
+        GameController gameController = new GameController();
+        gameController.createGame(new Coord2D<>(10, 10));
+
+        vehicleController = new VehicleController();
+        vehicleController.createVehicle("test");
+    }
+
     @Test
     void testCreateVehicle() {
-        VehicleController vehicleController = new VehicleController();
         String pseudo = "test";
 
         try (Response response = vehicleController.createVehicle(pseudo)) {
-            assertEquals(200, response.getStatus());
+            assertEquals(201, response.getStatus());
             assertEquals(pseudo, response.getEntity());
         } catch (Exception e) {
             fail("Error creating vehicle", e);
@@ -25,7 +37,6 @@ class VehicleControllerTest {
 
     @Test
     void testMoveVehicle() {
-        VehicleController vehicleController = new VehicleController();
         String pseudo = "test";
         Direction direction = Direction.UP;
 

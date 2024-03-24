@@ -13,4 +13,9 @@ public abstract class Cell {
     public Coord2D<Integer, Integer> getPosition() {
         return position;
     }
+
+    public void setPosition(Coord2D<Integer, Integer> position) {
+        if (position == null) throw new IllegalArgumentException("Position cannot be null");
+        this.position = position;
+    }
 }

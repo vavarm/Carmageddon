@@ -26,6 +26,10 @@ public class Vehicle extends Cell {
         this.pseudo = pseudo;
     }
 
+    public void refuel() {
+        this.currentFuel = MAX_FUEL;
+    }
+
     public int getCurrentFuel() {
         return currentFuel;
     }

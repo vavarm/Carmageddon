@@ -1,23 +1,10 @@
 package org.acme.svc;
 
-import org.acme.common.Coord2D;
-import org.acme.model.Game;
+import org.acme.dto.CreateGameDTO;
 
-import java.util.ArrayList;
+public interface GameService {
 
-public class GameService {
+    public boolean createGame(CreateGameDTO createGameDTO);
 
-    private GameService() {
-    }
-
-    public static boolean createGame(Coord2D<Integer, Integer> size) {
-        // TODO : envoyer avec MQTT
-        Game.createNewGame(size, new ArrayList<>(), new ArrayList<>());
-        return Game.getInstance() != null;
-    }
-
-    public static String getGameState() {
-        // TODO : envoyer avec MQTT
-        return Game.getInstance().toString();
-    }
+    public String getGameState();
 }

@@ -11,13 +11,11 @@ public class GameService {
     }
 
     public static boolean createGame(Coord2D<Integer, Integer> size) {
-        // TODO : Send with MQTT
         Game.createNewGame(size, new ArrayList<>(), new ArrayList<>());
         return Game.getInstance() != null;
     }
 
     public static String getGameState() {
-        // TODO : Send with MQTT
         return Game.getInstance().toString();
     }
 }

@@ -16,9 +16,9 @@ public class GameController {
     public Response createGame(Coord2D<Integer, Integer> coord2D){
         Log.info("Creating game with size: x=" + coord2D.getx() + " y=" + coord2D.gety());
         if ( GameService.createGame(coord2D) ) {
-            return Response.status(201).build();
+            return Response.status(201).entity(coord2D).build();
         }
-        return Response.status(500).build();
+        return Response.status(400).build();
     }
 
     @GET

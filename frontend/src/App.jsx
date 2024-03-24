@@ -1,11 +1,18 @@
 import {useEffect, useState} from 'react'
 import axios from 'axios'
+import mqtt from 'mqtt'
 
 function App() {
 
     const backendUrl = import.meta.env.VITE_BACKEND_URL
 
     const delay = 10 //ms
+
+    const [mqttClient, setMqttClient] = useState(null)
+
+    const mqttConnect = () => {
+        setMqttClient(mqtt.connect('ws:mqtt.eclipseprojects.io/mqtt'))
+    }
 
     const [startTime, setStartTime] = useState(Date.now())
 
@@ -110,6 +117,23 @@ function App() {
         });
     }
 
+    useEffect(() => {
+        mqttConnect()
+    }, []);
+
+    useEffect(() => {
+        if (mqttClient) {
+            mqttClient.on('connect', () => {
+                console.log('Connected to MQTT')
+                mqttClient.subscribe('varmandharumia')
+            })
+            mqttClient.on('message', (topic, message) => {
+                console.log(topic, message.toString())
+                const data = JSON.parse(message.toString())
+                setGame(data)
+            })
+        }
+    }, [mqttClient]);
 
     useEffect(() => {
         console.log(import.meta.env.VITE_BACKEND_URL)
@@ -126,8 +150,7 @@ function App() {
         <div className="App" style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', width: '100vw'}}>
             { game.x === 0 &&
                 <div>
-                    <button onClick={createGame}>Create Game</button>
-                    <button onClick={getGame}>Join Game</button>
+                    <button onClick={createGame}>Create New Game</button>
                 </div>
             }
             {pseudo.length !== 0 ?

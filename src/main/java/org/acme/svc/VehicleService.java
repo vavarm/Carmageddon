@@ -12,12 +12,14 @@ public class VehicleService {
     }
 
     public static boolean createVehicle(String pseudo) {
+        // TODO : envoyer avec MQTT
         Vehicle vehicle = new Vehicle(pseudo, Direction.UP, new Coord2D<>(0, 0));
         Game.getInstance().addVehicle(vehicle);
         return true;
     }
 
     public static MoveState moveVehicle(String pseudo, Direction direction) {
+        // TODO : envoyer avec MQTT
         Vehicle vehicle = Game.getInstance().getVehicles().stream()
                 .filter(v -> v.getPseudo().equals(pseudo))
                 .findFirst()

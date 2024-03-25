@@ -114,6 +114,16 @@ function App() {
         });
     }
 
+    const checkIfPlayerIsDead = (data) => {
+        if (!pseudo) return;
+        //get all pseudos
+        const pseudos = data.vehicles.map(vehicle => vehicle.pseudo);
+        //check if the pseudo is in the list
+        if (!pseudos.includes(pseudo)) {
+            setPseudo('');
+        }
+    }
+
     useEffect(() => {
         mqttConnect()
     }, []);
@@ -127,6 +137,7 @@ function App() {
             mqttClient.on('message', (topic, message) => {
                 console.log(topic, message.toString())
                 const data = JSON.parse(message.toString())
+                checkIfPlayerIsDead(data)
                 setGame(data)
             })
         }
@@ -147,53 +158,54 @@ function App() {
         <div className="App" style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', width: '100vw'}}>
             { game.size.x === 0 &&
                 <>
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }}>
-                            <span>Game width</span>
-                            <input type={"number"} value={gameField.size.x} onChange={(event) => setGameField({
-                                ...gameField,
-                                size: {x: event.target.value, y: gameField.size.y}
-                            })} placeholder="Size x"/>
-                        </div>
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }}>
-                            <span>Game height</span>
-                            <input type={"number"} value={gameField.size.y} onChange={(event) => setGameField({
-                                ...gameField,
-                                size: {x: gameField.size.x, y: event.target.value}
-                            })} placeholder="Size y"/>
-                        </div>
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }}>
-                            <span>Number of garages</span>
-                            <input type={"number"} value={gameField.nbGarages}
-                                   onChange={(event) => setGameField({...gameField, nbGarages: event.target.value})}
-                                   placeholder="Number of garages"/>
-                        </div>
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }}>
-                            <span>Number of gas stations</span>
-                            <input type={"number"} value={gameField.nbGasStations}
-                                   onChange={(event) => setGameField({...gameField, nbGasStations: event.target.value})}
-                                   placeholder="Number of gas stations"/>
-                        </div>
-                        <button onClick={createGame}>Create New Game</button>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}>
+                        <span>Game width</span>
+                        <input type={"number"} value={gameField.size.x} onChange={(event) => setGameField({
+                            ...gameField,
+                            size: {x: event.target.value, y: gameField.size.y}
+                        })} placeholder="Size x"/>
+                    </div>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}>
+                        <span>Game height</span>
+                        <input type={"number"} value={gameField.size.y} onChange={(event) => setGameField({
+                            ...gameField,
+                            size: {x: gameField.size.x, y: event.target.value}
+                        })} placeholder="Size y"/>
+                    </div>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}>
+                        <span>Number of garages</span>
+                        <input type={"number"} value={gameField.nbGarages}
+                               onChange={(event) => setGameField({...gameField, nbGarages: event.target.value})}
+                               placeholder="Number of garages"/>
+                    </div>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}>
+                        <span>Number of gas stations</span>
+                        <input type={"number"} value={gameField.nbGasStations}
+                               onChange={(event) => setGameField({...gameField, nbGasStations: event.target.value})}
+                               placeholder="Number of gas stations"/>
+                    </div>
+                    <button onClick={createGame}>Create New Game</button>
+                    <button onClick={getGame}>Join Game</button>
                 </>
             }
             {pseudo.length !== 0 ?
@@ -212,7 +224,6 @@ function App() {
                     <button onClick={createVehicle}>Connect</button>
                 </div>
             }
-            <button onClick={getGame}>Get Game</button>
             <div className="game" style={{flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: `100%`}}>
                 {game.size.x !== 0 &&
                 Array.from({length: game.size.y}, (_, i) =>

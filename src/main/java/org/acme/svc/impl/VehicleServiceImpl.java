@@ -48,6 +48,7 @@ public class VehicleServiceImpl implements VehicleService {
                 .findFirst()
                 .orElse(null);
         if (vehicle == null) return MoveState.FAILURE;
+        Coord2D<Integer, Integer> positionBeforeMove = vehicle.getPosition();
 
         if ( vehicle.getOrientation() == moveVehicleDTO.getDirection() ) {
             vehicle.setCurrentFuel(vehicle.getCurrentFuel()-1);
@@ -65,6 +66,11 @@ public class VehicleServiceImpl implements VehicleService {
                 case RIGHT:
                     vehicle.setPosition(new Coord2D<>(vehicle.getPosition().getx() + Calculation.calculate("plus"), vehicle.getPosition().gety()));
                     break;
+            }
+
+            if (isOutOfGrid(vehicle)) {
+                vehicle.setPosition(positionBeforeMove);
+                return MoveState.FAILURE;
             }
 
             if (isOnGasStation(vehicle) || isOnGarage(vehicle)) {
@@ -112,5 +118,10 @@ public class VehicleServiceImpl implements VehicleService {
             return true;
         }
         return false;
+    }
+
+    private boolean isOutOfGrid(Vehicle vehicle) {
+        return vehicle.getPosition().getx() < 0 || vehicle.getPosition().getx() > Game.getInstance().getSize().getx()-1
+                || vehicle.getPosition().gety() < 0 || vehicle.getPosition().gety() > Game.getInstance().getSize().gety()-1;
     }
 }

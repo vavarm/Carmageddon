@@ -1,7 +1,5 @@
 package org.acme.dto;
 
-import org.acme.common.Direction;
-
 public class CreateVehicleDTO {
     private String pseudo;
 

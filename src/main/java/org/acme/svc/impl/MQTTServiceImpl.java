@@ -13,7 +13,7 @@ public class MQTTServiceImpl implements MQTTService {
 
     private MqttClient client;
 
-    private final String topic = "varmandharumia";
+    private static final String TOPIC = "varmandharumia";
 
     public MQTTServiceImpl() {
         try {
@@ -31,7 +31,7 @@ public class MQTTServiceImpl implements MQTTService {
         Game game = Game.getInstance();
         Log.info("Sending game state: " + game);
         try {
-            client.publish(topic, game.toString().getBytes(), 0, false);
+            client.publish(TOPIC, game.toString().getBytes(), 0, false);
         } catch (MqttException e) {
             Log.error("Error while sending game state", e);
         }

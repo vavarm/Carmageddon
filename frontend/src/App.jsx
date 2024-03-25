@@ -118,6 +118,7 @@ function App() {
         if (!pseudo) return;
         //get all pseudos
         const pseudos = data.vehicles.map(vehicle => vehicle.pseudo);
+        console.log("pseudos:" + pseudos)
         //check if the pseudo is in the list
         if (!pseudos.includes(pseudo)) {
             setPseudo('');
@@ -141,7 +142,7 @@ function App() {
                 setGame(data)
             })
         }
-    }, [mqttClient]);
+    }, [mqttClient, pseudo]);
 
     useEffect(() => {
         console.log(import.meta.env.VITE_BACKEND_URL)
@@ -252,13 +253,13 @@ function App() {
                                             game.vehicles.some(vehicle => vehicle.position.x === j && vehicle.position.y === i) ?
                                                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
                                                     {
-                                                        game.vehicles.find(vehicle => vehicle.position.x === j && vehicle.position.y === i).direction === "UP" ?
+                                                        game.vehicles.find(vehicle => vehicle.position.x === j && vehicle.position.y === i).orientation === "UP" ?
                                                             '⬆️'
                                                             :
-                                                            game.vehicles.find(vehicle => vehicle.position.x === j && vehicle.position.y === i).direction === "RIGHT" ?
+                                                            game.vehicles.find(vehicle => vehicle.position.x === j && vehicle.position.y === i).orientation === "RIGHT" ?
                                                                 '➡️'
                                                                 :
-                                                                game.vehicles.find(vehicle => vehicle.position.x === j && vehicle.position.y === i).direction === "DOWN" ?
+                                                                game.vehicles.find(vehicle => vehicle.position.x === j && vehicle.position.y === i).orientation === "DOWN" ?
                                                                     '⬇️'
                                                                     :
                                                                     '⬅️'

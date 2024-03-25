@@ -25,27 +25,27 @@ public class GameServiceImpl implements GameService {
         ArrayList<Coord2D<Integer, Integer>> coordNotEmpty = new ArrayList<>();
         int i = 0;
         while (i < nbGarages) {
-            int x = random.nextInt() * (createGameDTO.getSize().getx()-1);
-            int y = random.nextInt() * (createGameDTO.getSize().gety()-1);
-            Coord2D<Integer, Integer> coord = new Coord2D<>(x, y);
-            if (coordNotEmpty.contains(coord)) {
+            int xi = random.nextInt(createGameDTO.getSize().getx());
+            int yi = random.nextInt(createGameDTO.getSize().gety());
+            Coord2D<Integer, Integer> coordi = new Coord2D<>(xi, yi);
+            if (coordNotEmpty.contains(coordi)) {
                 continue;
             }
-            coordNotEmpty.add(coord);
-            garages.add(new Garage(coord));
+            coordNotEmpty.add(coordi);
+            garages.add(new Garage(coordi));
             i++;
         }
 
         int j = 0;
         while (j < nbGasStations) {
-            int x = random.nextInt() * (createGameDTO.getSize().getx()-1);
-            int y = random.nextInt() * (createGameDTO.getSize().gety()-1);
-            Coord2D<Integer, Integer> coord = new Coord2D<>(x, y);
-            if (coordNotEmpty.contains(coord)) {
+            int xj = random.nextInt(createGameDTO.getSize().getx());
+            int yj = random.nextInt(createGameDTO.getSize().gety());
+            Coord2D<Integer, Integer> coordj = new Coord2D<>(xj, yj);
+            if (coordNotEmpty.contains(coordj)) {
                 continue;
             }
-            coordNotEmpty.add(coord);
-            gasStations.add(new GasStation(coord));
+            coordNotEmpty.add(coordj);
+            gasStations.add(new GasStation(coordj));
             j++;
         }
 

@@ -1,13 +1,11 @@
 package org.acme.ctrl;
 
 import io.quarkus.logging.Log;
-import io.smallrye.reactive.messaging.providers.extension.EmitterImpl;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.acme.dto.CreateGameDTO;
-import org.acme.model.Game;
 import org.acme.svc.GameService;
 import org.acme.svc.MQTTService;
 import org.acme.svc.impl.GameServiceImpl;

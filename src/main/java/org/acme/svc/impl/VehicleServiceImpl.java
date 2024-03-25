@@ -48,6 +48,7 @@ public class VehicleServiceImpl implements VehicleService {
                 .findFirst()
                 .orElse(null);
         if (vehicle == null) return MoveState.FAILURE;
+        Coord2D<Integer, Integer> positionBeforeMove = vehicle.getPosition();
 
         if ( vehicle.getOrientation() == moveVehicleDTO.getDirection() ) {
             vehicle.setCurrentFuel(vehicle.getCurrentFuel()-1);
@@ -67,13 +68,23 @@ public class VehicleServiceImpl implements VehicleService {
                     break;
             }
 
-            if (isOnGasStation(vehicle) || isOnGarage(vehicle)) {
+            if (isOutOfGrid(vehicle)) {
+                vehicle.setPosition(positionBeforeMove);
+                return MoveState.FAILURE;
+            }
+
+            if (isOnGarage(vehicle)) {
+                Log.info("Is on Garage");
                 return MoveState.SUCCESS;
             }
-            if (!isOnGasStation(vehicle) && !isOnGarage(vehicle) && isOnOtherVehicle(vehicle)) {
+            if (isOnGasStation(vehicle)) {
+                Log.info("Time to refuel");
+                vehicle.refuel();
                 return MoveState.SUCCESS;
             }
 
+            Vehicle otherVehicle = isOnOtherVehicle(vehicle);
+            if (otherVehicle != null) Game.getInstance().removeVehicle(otherVehicle);
             return MoveState.SUCCESS;
         }
         vehicle.setOrientation(moveVehicleDTO.getDirection());
@@ -85,12 +96,8 @@ public class VehicleServiceImpl implements VehicleService {
                 .filter(g -> g.getPosition().equals(vehicle.getPosition()))
                 .findFirst()
                 .orElse(null);
-
-        if (gasStation != null && vehicle.getPosition() == gasStation.getPosition()) {
-            vehicle.refuel();
-            return true;
-        }
-        return false;
+        Log.info("GasStation :" + gasStation);
+        return gasStation != null;
     }
 
     private boolean isOnGarage(Vehicle vehicle) {
@@ -98,19 +105,24 @@ public class VehicleServiceImpl implements VehicleService {
                 .filter(g -> g.getPosition().equals(vehicle.getPosition()))
                 .findFirst()
                 .orElse(null);
-
-        return garage != null && vehicle.getPosition() == garage.getPosition();
+        Log.info("Garage :" + garage);
+        return garage != null;
     }
 
-    private boolean isOnOtherVehicle(Vehicle vehicle) {
+    private Vehicle isOnOtherVehicle(Vehicle vehicle) {
         Vehicle otherVehicle = Game.getInstance().getVehicles().stream()
                 .filter(v -> v.getPosition().equals(vehicle.getPosition()))
                 .findFirst()
                 .orElse(null);
-        if (otherVehicle != null && otherVehicle != vehicle) {
-            Game.getInstance().removeVehicle(otherVehicle);
-            return true;
+        Log.info("Other Vehicle :" + otherVehicle);
+        if (otherVehicle != vehicle) {
+            return otherVehicle;
         }
-        return false;
+        return null;
+    }
+
+    private boolean isOutOfGrid(Vehicle vehicle) {
+        return vehicle.getPosition().getx() < 0 || vehicle.getPosition().getx() > Game.getInstance().getSize().getx()-1
+                || vehicle.getPosition().gety() < 0 || vehicle.getPosition().gety() > Game.getInstance().getSize().gety()-1;
     }
 }

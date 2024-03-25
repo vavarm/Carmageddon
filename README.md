@@ -1,8 +1,6 @@
-# carmageddon
+# Carmageddon
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
-
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+Fullstack little game written in React and Java Quarkus
 
 ## Running the application in dev mode
 
@@ -11,7 +9,7 @@ You can run your application in dev mode that enables live coding using:
 ./gradlew quarkusDev
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
+Then you can access the game at ```http://localhost:8080/``` and the development dahboard at ```http://localhost:8080/dev-frontend```
 
 ## Packaging and running the application
 
@@ -20,37 +18,26 @@ The application can be packaged using:
 ./gradlew build
 ```
 It produces the `quarkus-run.jar` file in the `build/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `build/quarkus-app/lib/` directory.
 
-The application is now runnable using `java -jar build/quarkus-app/quarkus-run.jar`.
+## How to play ?
 
-If you want to build an _über-jar_, execute the following command:
-```shell script
-./gradlew build -Dquarkus.package.type=uber-jar
-```
+- Run the application
+- Go to ```http://localhost:8080/```
+- Create a new game or join an existing game
+- Join the party by giving your pseudonyme
+- Your car appears in a garage, you can now move with the arrow keys and try to demolish the other vehicules
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar build/*-runner.jar`.
+## Architecture
 
-## Creating a native executable
+- **frontend**: the source code of the frontend application
+- **src/main/java/org/acme**: the source code of the backend application
+- **src/test/java/org/acme**: the test files of the backend
+- **src/main/resources/META-INF/resources**: the frontend's static files served when the Quarkus application is launched
 
-You can create a native executable using: 
-```shell script
-./gradlew build -Dquarkus.package.type=native
-```
+## Compilation
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
-```shell script
-./gradlew build -Dquarkus.package.type=native -Dquarkus.native.container-build=true
-```
+You can test a compilator in this project. Just run ```src/main/java/org/acme/Compiler.java```and look at the output file: ```src/main/java/org/acme/compiled/Calculation.java```
 
-You can then execute your native executable with: `./build/carmageddon-1.0.0-SNAPSHOT-runner`
+### How it works ?
 
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/gradle-tooling.
-
-## Provided Code
-
-### RESTEasy Reactive
-
-Easily start your Reactive RESTful Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+The compiler looks at all files in ```src/main/toBeCompiled```. Then, for each files with ```.compil``` as extension, it adds a method call with the filename in a router. Finally, it creates a method with the filename and for each line where "PLUS" is written, it returns +1 and for each line where "MOINS" is written, it returns -1. In case of there's no "PLUS" or "MOINS" in the file, the method returns 0.

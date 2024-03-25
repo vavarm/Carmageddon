@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react'
 import axios from 'axios'
 import mqtt from 'mqtt'
+import HorizontalGauge from "./HorizontalGauge.jsx";
 
 function App() {
 
@@ -21,6 +22,8 @@ function App() {
     const [pseudoField, setPseudoField] = useState('')
 
     const [pseudo, setPseudo] = useState('')
+
+    const [fuel, setFuel] = useState(0)
 
     const [game, setGame] = useState({size: {x: 0, y: 0}, garages: [], gasStations: [], vehicles: []})
     // game with x, y, garages, gasStations, vehicles
@@ -155,6 +158,19 @@ function App() {
         }
     }, [pseudo, startTime]);
 
+    useEffect(() => {
+        // get the vehicle of the player (from the game, if it exists)
+        // set the fuel of the player
+        if (pseudo.length !== 0) {
+            console.log("Pseudo:" + pseudo)
+            const vehicle = game.vehicles.find(vehicle => vehicle.pseudo === pseudo)
+            if (vehicle) {
+                console.log("Vehicle:" + JSON.stringify(vehicle))
+                setFuel(vehicle.currentFuel)
+            }
+        }
+    }, [game])
+
   return (
         <div className="App" style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', width: '100vw'}}>
             { game.size.x === 0 &&
@@ -210,8 +226,15 @@ function App() {
                 </>
             }
             {pseudo.length !== 0 ?
-                <div>
+                <div style={{
+                    width: '100%',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-around'
+                }}>
                     <h1>Your pseudo: {pseudo}</h1>
+                    <HorizontalGauge fuel={fuel}/>
                 </div>
                 :
                 game.size.x !== 0 &&

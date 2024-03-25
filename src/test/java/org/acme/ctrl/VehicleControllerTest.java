@@ -5,6 +5,7 @@ import org.acme.common.Coord2D;
 import org.acme.common.Direction;
 import org.acme.common.MoveState;
 import org.acme.dto.CreateGameDTO;
+import org.acme.dto.CreateVehicleDTO;
 import org.acme.dto.MoveVehicleDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,8 +27,8 @@ class VehicleControllerTest {
     @Test
     void testCreateVehicle() {
         String pseudo = "test";
-
-        try (Response response = vehicleController.createVehicle(pseudo)) {
+        CreateVehicleDTO dto = new CreateVehicleDTO(pseudo);
+        try (Response response = vehicleController.createVehicle(dto)) {
             assertEquals(201, response.getStatus());
             assertEquals(pseudo, response.getEntity());
         } catch (Exception e) {
@@ -38,8 +39,8 @@ class VehicleControllerTest {
     @Test
     void testMoveVehicle() {
         String pseudo = "test";
-
-        try (Response response = vehicleController.createVehicle(pseudo)) {
+        CreateVehicleDTO dto = new CreateVehicleDTO(pseudo);
+        try (Response response = vehicleController.createVehicle(dto)) {
             assertEquals(201, response.getStatus());
             assertEquals(pseudo, response.getEntity());
         } catch (Exception e) {

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 @ApplicationScoped
 public class GameServiceImpl implements GameService {
 
-    private SecureRandom random = new SecureRandom();
+    private static SecureRandom random = new SecureRandom();
 
     public boolean createGame(CreateGameDTO createGameDTO) {
         Integer nbGarages = createGameDTO.getNbGarages();

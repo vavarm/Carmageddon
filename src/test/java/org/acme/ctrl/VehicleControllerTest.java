@@ -5,7 +5,9 @@ import org.acme.common.Coord2D;
 import org.acme.common.Direction;
 import org.acme.common.MoveState;
 import org.acme.dto.CreateGameDTO;
+import org.acme.dto.CreateVehicleDTO;
 import org.acme.dto.MoveVehicleDTO;
+import org.acme.model.Game;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,10 +28,10 @@ class VehicleControllerTest {
     @Test
     void testCreateVehicle() {
         String pseudo = "test";
-
-        try (Response response = vehicleController.createVehicle(pseudo)) {
+        CreateVehicleDTO dto = new CreateVehicleDTO(pseudo);
+        try (Response response = vehicleController.createVehicle(dto)) {
             assertEquals(201, response.getStatus());
-            assertEquals(pseudo, response.getEntity());
+            assertEquals(dto, response.getEntity());
         } catch (Exception e) {
             fail("Error creating vehicle", e);
         }
@@ -38,16 +40,18 @@ class VehicleControllerTest {
     @Test
     void testMoveVehicle() {
         String pseudo = "test";
-
-        try (Response response = vehicleController.createVehicle(pseudo)) {
+        CreateVehicleDTO dto = new CreateVehicleDTO(pseudo);
+        try (Response response = vehicleController.createVehicle(dto)) {
             assertEquals(201, response.getStatus());
-            assertEquals(pseudo, response.getEntity());
+            assertEquals(dto, response.getEntity());
         } catch (Exception e) {
             fail("Error creating vehicle", e);
         }
 
         Direction direction = Direction.UP;
         MoveVehicleDTO moveVehicleDTO = new MoveVehicleDTO(pseudo, direction);
+
+        Game.getInstance().getVehicles().getFirst().setOrientation(Direction.DOWN);
 
         try (Response response = vehicleController.moveVehicle(moveVehicleDTO)) {
             assertEquals(200, response.getStatus());

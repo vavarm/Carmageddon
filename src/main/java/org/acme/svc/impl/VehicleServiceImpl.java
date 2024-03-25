@@ -27,6 +27,14 @@ public class VehicleServiceImpl implements VehicleService {
             Log.error("No garages available");
             return false;
         }
+        if(pseudo == null) {
+            Log.error("Pseudo cannot be null");
+            return false;
+        }
+        if (Game.getInstance().getVehicles().stream().anyMatch(v -> v.getPseudo().equals(pseudo))) {
+            Log.error("Pseudo already exists");
+            return false;
+        }
         int randomGarage = random.nextInt(garages.size());
         Coord2D<Integer, Integer> positionStart = Game.getInstance().getGarages().get(randomGarage).getPosition();
         Vehicle vehicle = new Vehicle(pseudo, Direction.UP, positionStart);

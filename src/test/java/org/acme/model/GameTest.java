@@ -119,7 +119,7 @@ class GameTest {
 
     @Test
     void testToString() {
-        assertEquals("\"Game\":{\"size\":{\"x\":10, \"y\":10}, \"garages\":[{\"position\": {\"x\": 1, \"y\": 1}}], \"gasStations\":[{\"position\": {\"x\": 2, \"y\": 2}}], \"vehicles\":[]}", game.toString());
+        assertEquals("{\"size\":{\"x\":10, \"y\":10}, \"garages\":[{\"position\": {\"x\": 1, \"y\": 1}}], \"gasStations\":[{\"position\": {\"x\": 2, \"y\": 2}}], \"vehicles\":[]}", game.toString());
     }
 
     @Test

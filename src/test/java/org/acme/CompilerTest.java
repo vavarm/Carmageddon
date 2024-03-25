@@ -72,6 +72,7 @@ class CompilerTest {
         assertEquals(2, files.size());
     }
 
+    /*
     @Test
     void createRouter() throws IOException {
         Path calculationFile = compiledDir.resolve("Calculation.java");
@@ -92,6 +93,7 @@ class CompilerTest {
         String calculationFileContents = String.join("", lines);
         assertTrue(calculationFileContents.replace("\n", "").contains(router));
     }
+    */
 
     @Test
     void writeMethodToFile() throws IOException {

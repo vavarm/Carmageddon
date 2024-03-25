@@ -111,7 +111,7 @@ public class VehicleServiceImpl implements VehicleService {
 
     private Vehicle isOnOtherVehicle(Vehicle vehicle) {
         Vehicle otherVehicle = Game.getInstance().getVehicles().stream()
-                .filter(v -> v.getPosition().equals(vehicle.getPosition()))
+                .filter(v -> v.getPosition().equals(vehicle.getPosition()) && !v.getPseudo().equals(vehicle.getPseudo()))
                 .findFirst()
                 .orElse(null);
         Log.info("Other Vehicle :" + otherVehicle);

@@ -92,8 +92,6 @@ class CompilerTest {
         List<String> lines = Files.readAllLines(calculationFile);
         String router = "  public static int calculate(String method) {    switch (method) {      case \"file1\":        return file1();      case \"file2\":        return file2();      default:        return 0;    }  }".replace("\n", "");
         String calculationFileContents = String.join("", lines);
-        System.out.println(calculationFileContents.replace("\n", ""));
-        System.out.println(router);
         assertTrue(calculationFileContents.replace("\n", "").contains(router));
     }
 
